@@ -3,6 +3,24 @@ import html
 import requests, json
 points = 0
 
+def getGroupQuest(questioncount,numofquestions):
+	questiontemp = getQuestion(questioncount)
+	question = html.unescape(questiontemp)
+	answertemp = getAnswer(questioncount)
+	global answer
+	answer = html.unescape(answertemp)
+	arr = getIncorrect(questioncount)
+	arr.append(answer)
+	random.shuffle(arr)
+	global quests
+	quests = {}
+	for i in range(len(arr)):
+		quests[i+1] = html.unescape(arr[i])
+	rtn = '**Q:'+ str(questioncount + 1) + '/' + str(numofquestions) + '**\n\n```' + str(question) + '\n\n'
+	for key, value in quests.items():
+		rtn += str(key) + ': ' + str(value) + '\n'
+	return rtn + "```"
+
 def getQuest(questioncount, pointcount, numofquestions):
     question1 = getQuestion(questioncount)
     question = html.unescape(question1)
